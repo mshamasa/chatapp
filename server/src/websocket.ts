@@ -1,16 +1,8 @@
-import express from "express";
 import { WebSocketServer, WebSocket } from "ws";
-import cors from "cors";
-import bodyParser from "body-parser";
 
-const app = express();
 const state = new Map();
 
 const wss = new WebSocketServer({ port: 8080 });
-
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 const updateState = (data: string) => {
   console.log("updateState start");
@@ -41,5 +33,4 @@ wss.on("connection", function connection(ws) {
   });
 });
 
-app.listen(3000);
-console.log("server up on http://localhost:3000");
+console.log("websocket server up on ws://localhost:8080");

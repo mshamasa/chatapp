@@ -1,6 +1,6 @@
 {
   "verbose": true,
-  "ignore": ["*.ts"],
+  "watch": ["*.ts"],
   "execMap": {
     "ts": "ts-node"
   }

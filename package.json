@@ -1,0 +1,9 @@
+{
+  "name": "chatapp with websocket",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "install": "cd client && npm install && cd ../server && npm install"
+  }
+}
