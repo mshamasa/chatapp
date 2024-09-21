@@ -1,0 +1,12 @@
+.channel {
+  display: grid;
+  padding: 4px;
+  background: red;
+
+  .message {
+    display: grid;
+    text-align: start;
+    border: 1px solid black;
+    color: white;
+  }
+}
