@@ -33,4 +33,4 @@ wss.on("connection", function connection(ws) {
   });
 });
 
-console.log("websocket server up on ws://localhost:8080");
+console.info("websocket server up on ws://localhost:8080");
