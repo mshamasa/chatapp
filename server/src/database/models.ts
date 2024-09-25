@@ -46,7 +46,7 @@ const initMessages = (sequelize: Sequelize) => {
   sequelize.define(
     "messages",
     {
-      id: { type: DataTypes.INTEGER, primaryKey: true },
+      id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       user_id: DataTypes.INTEGER,
       channel_id: DataTypes.INTEGER,
       text: DataTypes.STRING,

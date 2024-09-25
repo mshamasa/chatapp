@@ -1,12 +1,10 @@
 .channel {
   display: grid;
-  padding: 4px;
-  background: red;
+  padding: 8px;
+  align-content: end;
 
-  .message {
-    display: grid;
-    text-align: start;
-    border: 1px solid black;
-    color: white;
+  .channel-messages {
+    min-height: 80%;
   }
+
 }

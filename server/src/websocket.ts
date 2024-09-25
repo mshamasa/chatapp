@@ -1,17 +1,30 @@
 import { WebSocketServer, WebSocket } from "ws";
+import { Sequelize } from "sequelize";
 
-const state = new Map();
+import { setupDatabase } from "./database";
+
+let database: Sequelize;
+(async () => {
+  if (database) {
+    return;
+  }
+  database = await setupDatabase();
+})();
 
 const wss = new WebSocketServer({ port: 8080 });
 
-const updateState = (data: string) => {
+const updateState = async (data: string) => {
+  const { models } = database;
   console.log("updateState start");
   try {
-    const { text, userId, channel } = JSON.parse(data);
-    const res = state.get(channel) ?? [];
-    res.push({ text, userId });
-    state.set(channel, res);
-    console.log(state);
+    const { text, userId, channelId, type } = JSON.parse(data);
+    if (type === "send") {
+      await models.messages.create({
+        text,
+        user_id: userId,
+        channel_id: channelId,
+      });
+    }
   } catch (err) {
     console.log(err);
   }
