@@ -1,7 +1,7 @@
-import { useChannelsContext } from "./ChannelsContext";
+import { useChannelContext } from "./Context";
 
 function Messages() {
-  const { messages } = useChannelsContext();
+  const { messages } = useChannelContext();
 
   const rows = messages.map((item) => {
     return <div key={item.id}>{item.text}</div>;

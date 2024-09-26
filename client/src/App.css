@@ -40,3 +40,13 @@
 .read-the-docs {
   color: #888;
 }
+
+.channels-container {
+  display: grid;
+  gap: 8px;
+  grid-auto-flow: column;
+  height: 480px;
+  width: 800px;
+  grid-template-columns: 124px 1fr;
+  grid-template-rows: 520px;
+}

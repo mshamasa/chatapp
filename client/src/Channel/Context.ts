@@ -1,12 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-type Channel = {
-  id: number;
-  name: string;
-  description: string;
-};
-
 type Message = {
   id: number;
   text: string;
@@ -20,10 +14,7 @@ type Message = {
 
 type Messages = Array<Message>;
 
-type Channels = Array<Channel>;
-
 type Context = {
-  channels: Channels;
   websocket: WebSocket;
   messages: Messages;
 };
@@ -32,17 +23,16 @@ const URL = "http://localhost:3000";
 
 const socket = new WebSocket("ws://localhost:8080");
 
-const ChannelsContext = createContext<Context>({
-  channels: [],
+const Context = createContext<Context>({
   websocket: socket,
   messages: [],
 });
 
-const useChannelsContext = () => {
-  return useContext(ChannelsContext);
+const useChannelContext = () => {
+  return useContext(Context);
 };
 
-const useChannel = () => {
+const useData = () => {
   const [messages, setMessages] = useState<Messages>([]);
   const params = useParams<"channelId">();
   const channelId = Number(params.channelId ?? 0);
@@ -51,7 +41,9 @@ const useChannel = () => {
     if (typeof event.data === "string") {
       const message: Message = JSON.parse(event.data);
       if (message.channel_id === channelId && message.type === "send") {
-        setMessages([...messages, message]);
+        setMessages((prev) => {
+          return [...prev, message];
+        });
       }
     }
   };
@@ -73,29 +65,10 @@ const useChannel = () => {
     return () => {
       setMessages([]);
       socket.removeEventListener("message", addMessage);
-      console.log("clean up=====");
     };
   }, [channelId]);
 
-  return { messages };
+  return { messages, websocket: socket };
 };
 
-const useData = () => {
-  const [channels, setChannels] = useState<Channels>([]);
-  const channel = useChannel();
-
-  const data = async () => {
-    const response = await fetch(`${URL}/channels`);
-    const results: Channels = await response.json();
-    setChannels(results);
-  };
-
-  const IDs = channels.map((item) => item.id).join("");
-  useEffect(() => {
-    data();
-  }, [IDs]);
-
-  return { channels, websocket: socket, ...channel };
-};
-
-export { useData, useChannelsContext, ChannelsContext, useChannel };
+export { useChannelContext, useData, Context };

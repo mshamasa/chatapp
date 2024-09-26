@@ -4,7 +4,7 @@
   align-content: end;
 
   .channel-messages {
-    min-height: 80%;
+    overflow-y: scroll;
   }
 
 }

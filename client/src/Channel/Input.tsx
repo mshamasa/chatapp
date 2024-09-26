@@ -1,10 +1,10 @@
 import { useRef } from "react";
 import { useParams } from "react-router-dom";
 
-import { useChannelsContext } from "./ChannelsContext";
+import { useChannelContext } from "./Context";
 
 function Input() {
-  const { websocket } = useChannelsContext();
+  const { websocket } = useChannelContext();
   const params = useParams<"channelId">();
   const channel_id = Number(params.channelId ?? 2);
   const inputRef = useRef<HTMLInputElement>(null);

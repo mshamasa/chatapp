@@ -19,11 +19,12 @@ const updateState = async (data: string) => {
   try {
     const { text, user_id, channel_id, type } = JSON.parse(data);
     if (type === "send") {
-      await models.messages.create({
+      const data = await models.messages.create({
         text,
         user_id,
         channel_id,
       });
+      return { ...data.toJSON(), type: "send" };
     }
   } catch (err) {
     console.log(err);
@@ -35,12 +36,12 @@ wss.on("connection", function connection(ws) {
   console.log("server connected");
   ws.on("error", console.error);
 
-  ws.on("message", function message(data) {
+  ws.on("message", async function message(data) {
     console.log("received: %s", data);
-    updateState(data.toString());
+    const item = await updateState(data.toString());
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
-        client.send(data.toString());
+        client.send(JSON.stringify(item));
       }
     });
   });

@@ -1,10 +1,6 @@
 import { PropsWithChildren } from "react";
 
-import {
-  useChannelsContext,
-  ChannelsContext,
-  useData,
-} from "./ChannelsContext";
+import { useChannelsContext, ChannelsContext, useData } from "./Context";
 
 const ChannelsProvider = ({ children }: PropsWithChildren) => {
   const value = useData();
