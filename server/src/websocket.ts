@@ -17,12 +17,12 @@ const updateState = async (data: string) => {
   const { models } = database;
   console.log("updateState start");
   try {
-    const { text, userId, channelId, type } = JSON.parse(data);
+    const { text, user_id, channel_id, type } = JSON.parse(data);
     if (type === "send") {
       await models.messages.create({
         text,
-        user_id: userId,
-        channel_id: channelId,
+        user_id,
+        channel_id,
       });
     }
   } catch (err) {

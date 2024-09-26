@@ -1,21 +1,29 @@
+import { useNavigate } from "react-router-dom";
 import { useChannelsContext } from "./ChannelsContext";
+import { ChannelsProvider } from "./ChannelsProvider";
 
 import Channel from "./Channel";
 
 import "./Channels.css";
 
-function Channels() {
-  const { channels, setChannelId } = useChannelsContext();
+function Component() {
+  const navigate = useNavigate();
+  const { channels } = useChannelsContext();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (event.currentTarget.id) {
-      setChannelId(Number(event.currentTarget.id));
+      navigate(event.currentTarget.id);
     }
   };
 
   const rows = channels.map((item) => {
     return (
-      <button className="channel" id={String(item.id)} onClick={handleClick}>
+      <button
+        className="channel"
+        key={item.id}
+        id={String(item.id)}
+        onClick={handleClick}
+      >
         {item.name}
       </button>
     );
@@ -28,5 +36,13 @@ function Channels() {
     </div>
   );
 }
+
+const Channels = () => {
+  return (
+    <ChannelsProvider>
+      <Component />
+    </ChannelsProvider>
+  );
+};
 
 export default Channels;
